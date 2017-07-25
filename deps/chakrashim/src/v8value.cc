@@ -305,6 +305,46 @@ Local<Int32> Value::ToInt32(Isolate* isolate) const {
   return FromMaybe(ToInt32(Local<Context>()));
 }
 
+Local<Boolean> Value::ToBoolean() const {
+  return ToBoolean(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<Boolean>());
+}
+
+Local<Number> Value::ToNumber() const {
+  return ToNumber(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<Number>());
+}
+
+Local<String> Value::ToString() const {
+  return ToString(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<String>());
+}
+
+Local<String> Value::ToDetailString() const {
+  return ToDetailString(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<String>());
+}
+
+Local<Object> Value::ToObject() const {
+  return ToObject(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<Object>());
+}
+
+Local<Integer> Value::ToInteger() const {
+  return ToInteger(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<Integer>());
+}
+
+Local<Uint32> Value::ToUint32() const {
+  return ToUint32(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<Uint32>());
+}
+
+Local<Int32> Value::ToInt32() const {
+  return ToInt32(Isolate::GetCurrent()->GetCurrentContext())
+    .FromMaybe(Local<Int32>());
+}
+
 MaybeLocal<Uint32> Value::ToArrayIndex(Local<Context> context) const {
   if (IsNumber()) {
     return ToUint32(context);

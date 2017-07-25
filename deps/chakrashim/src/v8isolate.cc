@@ -76,6 +76,10 @@ void Isolate::Dispose() {
   jsrt::IsolateShim::FromIsolate(this)->Dispose();
 }
 
+bool Isolate::IsDead() {
+  return V8::IsDead();
+}
+
 int64_t Isolate::AdjustAmountOfExternalAllocatedMemory(
     int64_t change_in_bytes) {
   // CHAKRA-TODO: We don't support adding external memory pressure at the

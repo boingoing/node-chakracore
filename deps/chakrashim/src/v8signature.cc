@@ -24,13 +24,7 @@
 namespace v8 {
 
 Local<Signature> Signature::New(Isolate* isolate,
-                                Handle<FunctionTemplate> receiver,
-                                int argc,
-                                Handle<FunctionTemplate> argv[]) {
-  if (argc != 0) {
-    CHAKRA_UNIMPLEMENTED_("v8::Signature::New with args list");
-  }
-
+                                Handle<FunctionTemplate> receiver) {
   return reinterpret_cast<Signature*>(*receiver);
 }
 

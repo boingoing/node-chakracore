@@ -1082,6 +1082,18 @@ class V8_EXPORT Value : public Data {
   Local<Uint32> ToUint32(Isolate* isolate = nullptr) const;
   Local<Int32> ToInt32(Isolate* isolate = nullptr) const;
 
+  inline V8_DEPRECATE_SOON("Use maybe version",
+    Local<Boolean> ToBoolean() const);
+  inline V8_DEPRECATED("Use maybe version", Local<Number> ToNumber() const);
+  inline V8_DEPRECATE_SOON("Use maybe version", Local<String> ToString() const);
+  inline V8_DEPRECATED("Use maybe version",
+    Local<String> ToDetailString() const);
+  inline V8_DEPRECATE_SOON("Use maybe version", Local<Object> ToObject() const);
+  inline V8_DEPRECATE_SOON("Use maybe version",
+    Local<Integer> ToInteger() const);
+  inline V8_DEPRECATED("Use maybe version", Local<Uint32> ToUint32() const);
+  inline V8_DEPRECATED("Use maybe version", Local<Int32> ToInt32() const);
+
   V8_DEPRECATE_SOON("Use maybe version", Local<Uint32> ToArrayIndex()) const;
   V8_WARN_UNUSED_RESULT MaybeLocal<Uint32> ToArrayIndex(
     Local<Context> context) const;
@@ -2187,7 +2199,8 @@ class V8_EXPORT FunctionTemplate : public Template {
   static Local<FunctionTemplate> New(
       Isolate* isolate, FunctionCallback callback = 0,
       Local<Value> data = Local<Value>(),
-      Local<Signature> signature = Local<Signature>(), int length = 0);
+      Local<Signature> signature = Local<Signature>(), int length = 0,
+      ConstructorBehavior behavior = ConstructorBehavior::kAllow);
 
   V8_DEPRECATE_SOON("Use maybe version", Local<Function> GetFunction());
   V8_WARN_UNUSED_RESULT MaybeLocal<Function> GetFunction(
@@ -2265,7 +2278,8 @@ struct IndexedPropertyHandlerConfiguration {
 
 class V8_EXPORT ObjectTemplate : public Template {
  public:
-  static Local<ObjectTemplate> New(Isolate* isolate);
+  static Local<ObjectTemplate> New(Isolate* isolate,
+      Local<FunctionTemplate> constructor = Local<FunctionTemplate>());
 
   V8_DEPRECATE_SOON("Use maybe version", Local<Object> NewInstance());
   V8_WARN_UNUSED_RESULT MaybeLocal<Object> NewInstance(Local<Context> context);
@@ -2339,11 +2353,10 @@ class V8_EXPORT External : public Value {
 
 class V8_EXPORT Signature : public Data {
  public:
-  static Local<Signature> New(Isolate* isolate,
-                              Handle<FunctionTemplate> receiver =
-                                Handle<FunctionTemplate>(),
-                              int argc = 0,
-                              Handle<FunctionTemplate> argv[] = nullptr);
+  static Local<Signature> New(
+    Isolate* isolate,
+    Handle<FunctionTemplate> receiver = Handle<FunctionTemplate>());
+
  private:
   Signature();
 };
@@ -2575,6 +2588,8 @@ class V8_EXPORT Isolate {
   void Enter();
   void Exit();
   void Dispose();
+
+  bool IsDead();
 
   void GetHeapStatistics(HeapStatistics *heap_statistics);
   size_t NumberOfHeapSpaces();

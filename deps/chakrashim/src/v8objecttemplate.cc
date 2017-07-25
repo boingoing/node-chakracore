@@ -695,7 +695,8 @@ JsValueRef CHAKRA_CALLBACK Utils::GetOwnPropertyDescriptorCallback(
   return descriptor;
 }
 
-Local<ObjectTemplate> ObjectTemplate::New(Isolate* isolate) {
+Local<ObjectTemplate> ObjectTemplate::New(Isolate* isolate,
+    Local<FunctionTemplate> constructor) {
   JsValueRef objectTemplateRef;
   ObjectTemplateData* templateData = new ObjectTemplateData();
 

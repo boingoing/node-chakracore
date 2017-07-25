@@ -320,7 +320,8 @@ Local<FunctionTemplate> FunctionTemplate::New(Isolate* isolate,
                                               FunctionCallback callback,
                                               Local<Value> data,
                                               Local<Signature> signature,
-                                              int length) {
+                                              int length,
+                                              ConstructorBehavior behavior) {
   FunctionTemplateData * templateData =
     new FunctionTemplateData(callback, data, signature);
   JsValueRef functionTemplateRef;

@@ -24,7 +24,7 @@ namespace v8 {
 
 String::Utf8Value::Utf8Value(Handle<v8::Value> obj)
     : _str(nullptr), _length(0) {
-  Handle<String> str = obj->ToString();
+  Handle<String> str = obj->ToString(nullptr);
   if (str.IsEmpty()) {
     return;
   }
@@ -51,7 +51,7 @@ String::Utf8Value::~Utf8Value() {
 }
 
 String::Value::Value(Handle<v8::Value> obj) : _str(nullptr), _length(0) {
-  Handle<String> str = obj->ToString();
+  Handle<String> str = obj->ToString(nullptr);
   if (str.IsEmpty()) {
     return;
   }
