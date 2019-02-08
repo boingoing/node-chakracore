@@ -1271,5 +1271,14 @@ CHAKRA_API
         _In_ JsValueRef parserState,
         _Out_ JsValueRef * result);
 
+CHAKRA_API
+    JsDeserializeParserState(
+      _In_ JsValueRef script,
+      _In_ JsSourceContext sourceContext,
+      _In_ JsValueRef sourceUrl,
+      _In_ JsParseScriptAttributes parseAttributes,
+      _In_ JsValueRef parserState,
+      _Out_ JsValueRef* result);
+
 #endif // _CHAKRACOREBUILD
 #endif // _CHAKRACORE_H_

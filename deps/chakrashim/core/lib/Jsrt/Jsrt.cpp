@@ -5675,12 +5675,13 @@ static bool CHAKRA_CALLBACK DummyScriptLoadSourceCallbackForRunScriptWithParserS
     return true;
 }
 
-CHAKRA_API JsRunScriptWithParserState(
+CHAKRA_API JsDeserializeParserStateInternal(
     _In_ JsValueRef script,
     _In_ JsSourceContext sourceContext,
     _In_ JsValueRef sourceUrl,
     _In_ JsParseScriptAttributes parseAttributes,
     _In_ JsValueRef parserState,
+    _In_ bool parseOnly,
     _Out_ JsValueRef *result)
 {
     PARAM_NOT_NULL(script);
@@ -5773,7 +5774,29 @@ CHAKRA_API JsRunScriptWithParserState(
     return RunSerializedScriptCore(
         dummy, DummyScriptUnloadCallback,
         sourceContext, // use the same user provided sourceContext as scriptLoadSourceContext
-        buffer, arrayBuffer, sourceContext, url, false, true, result, sourceIndex);
+        buffer, arrayBuffer, sourceContext, url, parseOnly, true, result, sourceIndex);
+}
+
+CHAKRA_API JsDeserializeParserState(
+    _In_ JsValueRef script,
+    _In_ JsSourceContext sourceContext,
+    _In_ JsValueRef sourceUrl,
+    _In_ JsParseScriptAttributes parseAttributes,
+    _In_ JsValueRef parserState,
+    _Out_ JsValueRef * result)
+{
+    return JsDeserializeParserStateInternal(script, sourceContext, sourceUrl, parseAttributes, parserState, true, result);
+}
+
+CHAKRA_API JsRunScriptWithParserState(
+    _In_ JsValueRef script,
+    _In_ JsSourceContext sourceContext,
+    _In_ JsValueRef sourceUrl,
+    _In_ JsParseScriptAttributes parseAttributes,
+    _In_ JsValueRef parserState,
+    _Out_ JsValueRef *result)
+{
+    return JsDeserializeParserStateInternal(script, sourceContext, sourceUrl, parseAttributes, parserState, false, result);
 }
 
 #endif // _CHAKRACOREBUILD
